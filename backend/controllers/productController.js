@@ -11,11 +11,15 @@ exports.createProduct = async (req, res, next) => {
     })
 }
 
+// Get all products => /api/v1/products
+exports.getProducts = async (req, res, next) => {
 
+    const products = await Product.find();
 
-exports.getProducts = (req, res, next) => {
     res.status(200).json({
         success: true,
+        count: products.length,
         message: 'All products fetched from the database successfully.',
+        products
     })
 }
