@@ -1,4 +1,4 @@
-{
+[{
     "name": "iPhone 13 Pro",
     "price": "999",
     "description": "A dramatically more powerful all-screen iPhone with a new dual-camera system, a new fastest chip, and a new battery. It's even better in every way.",
@@ -23,4 +23,31 @@
         "comment": "This is the best phone after max I have ever used"
     }
     ]
+},
+{
+    "name": "iPhone 11 Pro",
+    "price": "999",
+    "description": "A dramatically more powerful all-screen iPhone with a new dual-camera system, a new fastest chip, and a new battery. It's even better in every way.",
+    "rating": "4.5",
+    "image" : [{
+        "public_id": "iphone_11_pro_1",
+        "url": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-11-pro-max-gold-select-2019?wid=940&hei=1112&fmt=png-alpha&.v=1567111809818"
+    }
+    ],
+    "category": "Electronics",
+    "seller": "Apple",
+    "stock": "15",
+    "numberOfReviews": "6",
+    "reviews": [{
+        "name": "John",
+        "rating": "5",
+        "comment": "This is the best phone I have ever used"
+    },
+    {
+        "name": "Jane",
+        "rating": "4",
+        "comment": "This is the best phone after max I have ever used"
+    }
+    ]
 }
+]

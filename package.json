@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "cross-env NODE_ENV=DEVELOPMENT nodemon backend/server",
-    "prod": "cross-env NODE_ENV=PRODUCTION nodemon backend/server"
+    "prod": "cross-env NODE_ENV=PRODUCTION nodemon backend/server",
+    "seeder": "node backend/utils/seeder"
   },
   "repository": {
     "type": "git",
