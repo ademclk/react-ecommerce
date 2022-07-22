@@ -20,6 +20,7 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
 
     const apiFeatures = new APIFeatures(Product.find(), req.query)
                         .search()
+                        .filter()
     const products = await apiFeatures.query;
 
     res.status(200).json({
