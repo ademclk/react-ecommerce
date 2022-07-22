@@ -1,7 +1,7 @@
 const { remove } = require("../models/product");
 
 class APIFeatures {
-    constructor(query, queryStr){
+    constructor(query, queryStr) {
         this.query = query;
         this.queryStr = queryStr;
     }
@@ -14,16 +14,12 @@ class APIFeatures {
             }
         } : {}
 
-        console.log(keyword)
-
         this.query = this.query.find({ ...keyword })
-        return this; 
+        return this;
     }
 
-    filter () {
-        const queryCopy = {...this.queryStr};
-
-        console.log(queryCopy)
+    filter() {
+        const queryCopy = { ...this.queryStr };
 
         // Remove the fields from the query string
         const removeFields = ['keyword', 'limit', 'page']
@@ -35,6 +31,13 @@ class APIFeatures {
 
         this.query = this.query.find(JSON.parse(queryStr));
         return this;
+    }
+
+    pagination(resPerPage) {
+        const currentPage = Number(this.queryStr.page) || 1;
+        const skip = resPerPage * (currentPage - 1);
+
+        this.query = this.query.limit(resPerPage).skip(skip)
     }
 }
 
