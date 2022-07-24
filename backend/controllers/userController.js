@@ -122,6 +122,16 @@ exports.changePassword = catchAsyncError( async(req, res, next) => {
     sendToken(user, 200, res);
 })
 
+// Show user profile => api/v1/me
+exports.showUserProfile = catchAsyncError( async(req, res, next) => {
+    const user = await User.findById(req.user.id)
+
+    res.status(200).json({
+        status: 'success',
+        user
+    })
+})
+
 // Logout a user => api/v1/logout
 exports.logout = catchAsyncError( async(req, res, next) => {
     res.cookie('token', null ,{
