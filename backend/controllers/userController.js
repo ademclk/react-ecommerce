@@ -182,3 +182,21 @@ exports.logout = catchAsyncError( async(req, res, next) => {
         message: 'You are logged out successfully.'
     })
 })
+
+// Admin Routes
+
+// Get all users => api/v1/admin/users
+exports.getAllUsers = catchAsyncError( async(req, res, next) => {
+    const users = await User.find();
+
+    res.status(200).json({
+        status: 'success',
+        results: users.length,
+        data: {
+            users
+        }
+    })
+})
+
+
+
