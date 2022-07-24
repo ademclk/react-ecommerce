@@ -10,7 +10,8 @@ const {
     showUserProfile, 
     updatePassword, 
     editUserProfile, 
-    getAllUsers } = require('../controllers/userController');
+    getAllUsers, 
+    getSingleUser } = require('../controllers/userController');
 
 const { isAuthenticatedUser, authorizeRole } = require('../middlewares/auth');
 
@@ -27,5 +28,6 @@ router.route('/password/update').put(isAuthenticatedUser, updatePassword);
 router.route('/me/edit').put(isAuthenticatedUser, editUserProfile);
 
 router.route('/admin/users').get(isAuthenticatedUser, authorizeRole('admin'), getAllUsers);
+router.route('/admin/users/:id').get(isAuthenticatedUser, authorizeRole('admin'), getSingleUser);
 
 module.exports = router;  

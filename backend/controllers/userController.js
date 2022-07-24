@@ -198,5 +198,21 @@ exports.getAllUsers = catchAsyncError( async(req, res, next) => {
     })
 })
 
+// Get single user => api/v1/admin/users/:id
+exports.getSingleUser = catchAsyncError( async(req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if(!user) {
+        return next(new ErrorHandler(`No user found with this id - ${req.params.id}`, 404));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    })
+})
+
 
 
