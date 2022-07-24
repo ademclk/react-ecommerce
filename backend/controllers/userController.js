@@ -5,6 +5,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
+const crypto = require('crypto');
 
 // Register a new user => api/v1/register
 exports.registerUser = catchAsyncError( async(req, res, next) => {
@@ -63,7 +64,7 @@ exports.resetPassword = catchAsyncError( async(req, res, next) => {
     await user.save({ validateBeforeSave : false });
 
     // Create reset password url
-    const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`;
+    const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/change/${resetToken}`;
 
     const message = `You are receiving this email because you (or someone else) has requested the reset of a password. 
                     Reset your password: \n\n ${resetUrl} \n\n
@@ -89,6 +90,36 @@ exports.resetPassword = catchAsyncError( async(req, res, next) => {
 
         return next(new ErrorHandler(error.message, 500));
 }
+})
+
+// Change password => api/v1/password/change/:token
+exports.changePassword = catchAsyncError( async(req, res, next) => {
+
+    // Hashing URL token to make sure that it is same as the one in the database
+    const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+    
+    const user = await User.findOne({
+        hashedToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    })
+    
+    if(!user){
+        return next(new ErrorHandler('Invalid or expired token', 400));
+    }
+
+    if(req.body.password !== req.body.confirmPassword) {
+        return next(new ErrorHandler('Passwords do not match', 400));
+    }
+
+    // Set new password
+    user.password = req.body.password;
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    sendToken(user, 200, res);
 })
 
 // Logout a user => api/v1/logout
