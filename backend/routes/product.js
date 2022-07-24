@@ -7,13 +7,15 @@ const { getProducts,
         updateProduct, 
         deleteProduct } = require('../controllers/productController')
 
-router.route('/products').get(getProducts);
-router.route('/product/:id').get(getSingleProduct);
+const { isAuthenticatedUser } = require('../middlewares/auth');        
 
-router.route('/admin/product/new').post(createProduct);
+router.route('/products').get(isAuthenticatedUser, getProducts);
+router.route('/product/:id').get(isAuthenticatedUser, getSingleProduct);
+
+router.route('/admin/product/new').post(isAuthenticatedUser, createProduct);
 
 router.route('/admin/product/:id')
-    .put(updateProduct)
-    .delete(deleteProduct);
+    .put(isAuthenticatedUser, updateProduct)
+    .delete(isAuthenticatedUser, deleteProduct);
 
 module.exports = router;
