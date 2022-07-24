@@ -9,8 +9,8 @@ const { getProducts,
 
 const { isAuthenticatedUser } = require('../middlewares/auth');        
 
-router.route('/products').get(isAuthenticatedUser, getProducts);
-router.route('/product/:id').get(isAuthenticatedUser, getSingleProduct);
+router.route('/products').get(getProducts);
+router.route('/product/:id').get(getSingleProduct);
 
 router.route('/admin/product/new').post(isAuthenticatedUser, createProduct);
 
