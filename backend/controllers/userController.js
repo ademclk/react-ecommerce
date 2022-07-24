@@ -4,6 +4,7 @@ const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
+const sendEmail = require('../utils/sendEmail');
 
 // Register a new user => api/v1/register
 exports.registerUser = catchAsyncError( async(req, res, next) => {
@@ -47,6 +48,48 @@ exports.loginUser = catchAsyncError( async(req,res, next) => {
 
     sendToken(user, 200, res);
 }) 
+
+// Reset password => api/v1/password/reset
+exports.resetPassword = catchAsyncError( async(req, res, next) => {
+    const user = await User.findOne({ email: req.body.email });
+
+    if(!user) {
+        return next(new ErrorHandler('No user found with this email', 404));
+    }
+
+    // Get reset token
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save({ validateBeforeSave : false });
+
+    // Create reset password url
+    const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/password/reset/${resetToken}`;
+
+    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. 
+                    Reset your password: \n\n ${resetUrl} \n\n
+                    If you did not request this, please ignore this email and your password will remain unchanged.`;
+
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: 'You have requested for password recovery (valid for 10 minutes)',
+            message
+        }); 
+
+        res.status(200).json({
+            status: 'success',
+            message: `Token sent to email: ${user.email}`
+        });
+    }
+    catch(err) {
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+
+        await user.save({ validateBeforeSave : false });
+
+        return next(new ErrorHandler(error.message, 500));
+}
+})
 
 // Logout a user => api/v1/logout
 exports.logout = catchAsyncError( async(req, res, next) => {
