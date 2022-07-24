@@ -18,8 +18,10 @@ exports.registerUser = cathAsyncError( async(req, res, next) => {
         }
     })
 
+    const token = user.getJwtToken();
+
     res.status(201).json({
         status: 'success',
-        user
+        token
     })
 })

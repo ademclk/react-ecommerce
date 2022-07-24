@@ -6,19 +6,19 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Product name is required'],
         trim: true,
-        maxLength: [100, 'Product name cannot be more than 100 characters']
+        maxlength: [100, 'Product name cannot be more than 100 characters']
     },
     price: {
         type: Number,
         required: [true, 'Product price is required'],
-        maxLength: [5, 'Product price cannot be more than 5 digits'],
+        maxlength: [5, 'Product price cannot be more than 5 digits'],
         default: 0.00
     },
     description: {
         type: String,
         required: [true, 'Product description is required'],
         trim: true,
-        maxLength: [500, 'Product description cannot be more than 500 characters']
+        maxlength: [500, 'Product description cannot be more than 500 characters']
     },
     rating: {
         type: Number,
