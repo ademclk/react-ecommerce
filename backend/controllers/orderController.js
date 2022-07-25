@@ -49,3 +49,12 @@ exports.getSingleOrder = catchAsyncError(async (req, res, next) => {
     });
 })
 
+// Get logged in user's orders => /api/v1/orders/me
+exports.getUserOrders = catchAsyncError(async (req, res, next) => {
+    const orders = await Order.find({ user: req.user._id });
+
+    res.status(200).json({
+        status: 'success',
+        orders
+    });
+})
