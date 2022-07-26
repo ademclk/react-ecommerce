@@ -1,10 +1,12 @@
 import React from 'react';
 import './App.css';
 
+import Header from './components/layout/Header';
+
 function App() {
   return (
     <div className="App">
-      <h1>React Ecommerce</h1>      
+      <Header />  
     </div>
   );
 }
