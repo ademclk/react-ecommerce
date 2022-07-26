@@ -96,7 +96,7 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
 )
 
 // Create a new review => /api/v1/review
-exports.createProductReview = catchAsyncError (async (req, res, next) => {
+exports.createProductReview = catchAsyncError(async (req, res, next) => {
     const { rating, comment, productId } = req.body;
 
     const review = {
@@ -144,6 +144,30 @@ exports.getProductReviews = catchAsyncError(async (req, res, next) => {
         success: true,
         reviews: product.reviews
     })
+})
 
-    
+// Delete a review => /api/v1/review/:id
+exports.deleteProductReview = catchAsyncError(async (req, res, next) => {
+
+    const product = await Product.findById(req.query.productId);
+
+    const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString());
+
+    const numberOfReviews = reviews.length;
+
+    const ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
+
+    await Product.findByIdAndUpdate(req.query.productId, {
+        reviews,
+        ratings,
+        numberOfReviews,
+    }, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    res.status(200).json({
+        success: true,
+    })
 })
