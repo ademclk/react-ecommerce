@@ -14,9 +14,11 @@
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-js-pagination": "^3.0.3",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^2.1.3",
+    "reactjs-pagination": "^0.0.8",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
@@ -46,5 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy" : "http://127.0.0.1:4000"
+  "proxy": "http://127.0.0.1:4000"
 }

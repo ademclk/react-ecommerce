@@ -9,7 +9,7 @@ import MetaData from '../layout/MetaData';
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductDetails, clearErrors } from '../../actions/productActions'
 
-const ProductDetails = ({ match }) => {
+const ProductDetails = () => {
 
     const { id } = useParams();
 
@@ -32,6 +32,7 @@ const ProductDetails = ({ match }) => {
         <Fragment>
             {loading ? <Loader /> : (
                 <Fragment>
+                    <MetaData title={product.name} />
                     <div className="row f-flex justify-content-around">
                         <div className="col-12 col-lg-5 img-fluid" id="product_image">
                             <Carousel pause='hover'>
